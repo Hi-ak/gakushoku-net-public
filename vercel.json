@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/auto-refund",
+      "schedule": "30 12 * * *"
+    },
+    {
+      "path": "/api/menu/insert-daily",
+      "schedule": "30 13 * * *"
+    },
+    {
+      "path": "/api/paypay/check-cart",
+      "schedule": "* * * * *"
+    }
+  ]
+}

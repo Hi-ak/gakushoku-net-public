@@ -1,0 +1,17 @@
+.tableContainer {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 20px;
+  background-color: white;
+  h3 {
+    margin-bottom: 15px;
+    font-size: 30px;
+  }
+  table th,
+  table td {
+    border-collapse: collapse;
+    border: 1px solid black;
+    min-width: 40px;
+    text-align: center;
+    padding: 2px;
+  }
+}

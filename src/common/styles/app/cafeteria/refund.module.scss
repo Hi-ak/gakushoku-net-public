@@ -1,0 +1,233 @@
+.refund {
+  --bar-color: #bababa;
+  --border-color: #c6a87b;
+  --text-color: var(--menu-text-color);
+  background-color: var(--color-menu-background);
+
+  --warning-text-color: var(--color-button-red);
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: bold;
+  flex: 1;
+
+  gap: 30px;
+
+  .title {
+    position: relative;
+    font-size: 28px;
+  }
+
+  .searchInputContainer {
+    flex-shrink: 0;
+    height: 100px;
+    width: 70dvw;
+    // flexboxは左始まりだが、この要素では中央揃え
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    > input {
+      position: relative;
+      height: 100%;
+      border-radius: 10px;
+      border: var(--menu-text-color) 3px solid;
+      padding: 0px 0px 0px 20px;
+      font-size: 50px;
+      color: var(--menu-text-color);
+      flex: 1;
+      &::placeholder {
+        color: gray;
+      }
+    }
+  }
+
+  .searchResultContainerWrapper {
+    width: 70dvw;
+    height: auto;
+
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+
+  .searchResultContainer {
+    max-width: 70dvw;
+    height: 60ddvh;
+    background-color: white;
+    flex: 1;
+    // 中央揃え
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    gap: 25px;
+    width: auto;
+    border-radius: 10px;
+    border: var(--menu-text-color) 3px solid;
+
+    padding: 5px;
+    overflow: scroll;
+  }
+
+  @media screen and (min-width: 900px) {
+    .menuContainer {
+      flex-direction: row;
+      justify-content: center;
+      align-items: normal;
+      flex-wrap: wrap;
+
+      > div {
+        width: 400px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .menuContainer > div {
+      min-width: unset;
+      width: 100%;
+    }
+  }
+
+  .warningTextContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(transparent, white);
+    h3 {
+      color: var(--warning-text-color);
+      text-align: center;
+    }
+  }
+
+  .bottom {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 10px;
+    background-color: white;
+    height: 70px;
+
+    .button {
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      margin: 10px;
+      flex: 1;
+      border: var(--button-border-color) 2px solid;
+    }
+
+    .button.cancel {
+      background-color: var(--color-secondary);
+    }
+
+    .button.disabled {
+      background-color: var(--color-secondary) !important;
+      cursor: not-allowed;
+    }
+
+    .button.cart {
+      background-color: var(--color-sub-primary);
+      position: relative;
+
+      span {
+        display: flex;
+
+        .cartIcon {
+          vertical-align: text-top;
+          width: 1.5rem;
+          margin-left: 3px;
+        }
+      }
+
+      .itemNum {
+        position: absolute;
+        top: 0;
+        right: 0;
+        translate: 40% -40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: red;
+        color: white;
+        border-radius: 100px;
+        width: 25px;
+        height: 25px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .alertContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    gap: 50px;
+
+    .alertButtons {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      width: 100%;
+      justify-content: space-between;
+
+      .button {
+        color: white;
+        font-weight: normal;
+        padding: 5px 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .button.cancel {
+        background-color: var(--color-sub-primary);
+      }
+
+      .button.confirm {
+        background-color: var(--color-secondary);
+      }
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .alertContainer {
+      padding: 25px;
+      gap: 20px;
+
+      .alertTitle {
+        font-size: 1.1rem;
+      }
+
+      .alertButtons {
+        justify-content: center;
+
+        .button {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

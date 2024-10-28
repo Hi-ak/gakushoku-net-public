@@ -1,0 +1,13 @@
+{
+  "name": "学食ネット",
+  "short_name": "学食ネット",
+  "description": "学生食堂の食券を事前にモバイルオーダーし、短い待ち時間で利用しよう！",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "https://gakushoku.net/icon/192x192_round.png",
+      "sizes": "192x192",
+      "type": "image/x-icon"
+    }
+  ]
+}

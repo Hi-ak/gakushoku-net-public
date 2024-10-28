@@ -1,0 +1,91 @@
+.orderModal {
+  flex-shrink: 0;
+  width: 95dvh;
+  height: 95vw;
+  rotate: 90deg;
+  border-radius: 32px;
+  border: var(--color-brown) 5px solid;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-menu-background);
+  padding: 20px 30px 40px 30px;
+  align-items: center;
+  overflow: auto;
+
+  .expire {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    font-weight: 400;
+    width: 100%;
+    font-size: 32px;
+    font-weight: bold;
+
+    > div {
+      text-wrap: nowrap;
+    }
+  }
+
+  .contents {
+    font-size: 50px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .subContents {
+      font-size: 32px;
+    }
+  }
+
+  .contents.center {
+    align-items: center;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .button {
+      border: var(--button-border-color) 1px solid;
+      border-radius: 10px;
+      padding: 4px 30px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .button.waiting {
+      background-color: var(--color-button-red);
+    }
+
+    .button.success {
+      background-color: var(--color-secondary);
+    }
+
+    .button.disabled {
+      background-color: gray;
+    }
+  }
+
+  .menuList {
+    li {
+      list-style: disc;
+    }
+  }
+
+  .smallMenuList {
+    margin-top: 10px;
+    font-size: 22px;
+  }
+}
+
+@media (orientation: landscape) {
+  .orderModal {
+    width: 95vw;
+    height: 95dvh;
+    rotate: 0deg;
+  }
+}

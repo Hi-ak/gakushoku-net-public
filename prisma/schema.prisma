@@ -1,0 +1,376 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  DEV
+  ADMIN
+  USER
+}
+
+model User {
+  id                String       @id @unique @default(uuid()) @db.Uuid
+  name              String?
+  email             String       @unique
+  cafeteriaId       String?      @db.Uuid
+  cafeteriaRelation Cafeteria?   @relation(fields: [cafeteriaId], references: [id])
+  role              Role         @default(USER)
+  tickets           Ticket[]
+  receipts          Receipt[]
+  orders            Order[]
+  cartTickets       CartTicket[]
+}
+
+enum SpecialCartTicketStatus {
+  AUTO_PURCHASED
+  NOT_PURCHASED
+  PROCESSING
+}
+
+model CartTicket {
+  id                String                  @id @unique @default(uuid()) @db.Uuid
+  merchantPaymentId String                  @db.Uuid
+  userId            String                  @db.Uuid
+  userRelation      User                    @relation(fields: [userId], references: [id])
+  menuId            String                  @db.Uuid
+  menuRelation      Menu                    @relation(fields: [menuId], references: [id])
+  quantity          Int                     @default(1)
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @default(now()) @updatedAt
+  specialStatus     SpecialCartTicketStatus @default(NOT_PURCHASED)
+  options           CartTicketOption[]
+}
+
+model CartTicketOption {
+  id                 String       @id @unique @default(uuid()) @db.Uuid
+  optionId           String       @db.Uuid
+  optionRelation     MenuOption   @relation(fields: [optionId], references: [id])
+  choiceId           String       @db.Uuid
+  choiceRelation     OptionChoice @relation(fields: [choiceId], references: [id])
+  cartTicketId       String       @db.Uuid
+  cartTicketRelation CartTicket   @relation(fields: [cartTicketId], references: [id], onDelete: Cascade)
+}
+
+enum TicketStatus {
+  UNUSED
+  ORDERED
+  USED
+  REFUNDED
+}
+
+model Ticket {
+  id              String          @id @unique @default(uuid()) @db.Uuid
+  holderId        String          @db.Uuid
+  holderRelation  User            @relation(fields: [holderId], references: [id])
+  receiptId       String          @db.Uuid
+  receiptRelation Receipt         @relation(fields: [receiptId], references: [id], onDelete: Cascade)
+  orderId         String?         @db.Uuid
+  orderRelation   Order?          @relation(fields: [orderId], references: [id])
+  menuId          String          @db.Uuid
+  menuRelation    Menu            @relation(fields: [menuId], references: [id])
+  menuPrice       Int //税金対応、のちの価格変更があっても、当時の値段を保持
+  options         TicketOptions[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now()) @updatedAt
+  // used            Boolean         @default(false)
+  status          TicketStatus    @default(UNUSED)
+}
+
+model TicketOptions {
+  id             String       @id @unique @default(uuid()) @db.Uuid
+  optionId       String       @db.Uuid
+  optionRelation MenuOption   @relation(fields: [optionId], references: [id])
+  choiceId       String       @db.Uuid
+  choicePrice    Int //税金対応、のちの価格変更があっても、当時の値段を保持
+  choiceRelation OptionChoice @relation(fields: [choiceId], references: [id])
+  ticketId       String       @db.Uuid
+  ticketRelation Ticket       @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+enum PaymentTypes {
+  // CREDIT_CARD
+  // CASH
+  PAYPAY
+  // LINE_PAY
+}
+
+enum ProcessingTypes {
+  AUTO_PURCHASED
+  NORMAL
+}
+
+model Receipt {
+  id                String          @id @unique @default(uuid()) @db.Uuid
+  issuerId          String          @db.Uuid
+  issuerRelation    Cafeteria       @relation(fields: [issuerId], references: [id])
+  userId            String          @db.Uuid
+  recipientRelation User            @relation(fields: [userId], references: [id])
+  tickets           Ticket[]
+  totalAmount       Int
+  totalPrice        Int
+  paymentType       PaymentTypes
+  processingType    ProcessingTypes @default(NORMAL)
+  paymentId         String          @unique
+  taxRate           Int             @default(10) //決済時の税率を保持、ただし、ここからの割戻しは1円単位の誤差が出るのでだめ
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @default(now()) @updatedAt
+}
+
+enum OrderStatus {
+  ORDERED
+  RECEIVED
+  REVERTED
+}
+
+model Order {
+  id                String      @id @unique @default(uuid()) @db.Uuid
+  issuerId          String      @db.Uuid
+  issuerRelation    User        @relation(fields: [issuerId], references: [id])
+  orderNum          Int
+  tickets           Ticket[]
+  orderStatus       OrderStatus @default(ORDERED)
+  cafeteriaId       String      @db.Uuid
+  cafeteriaRelation Cafeteria   @relation(fields: [cafeteriaId], references: [id])
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @default(now()) @updatedAt
+
+  @@unique([cafeteriaId, orderNum])
+}
+
+model Cafeteria {
+  id                  String                @id @unique @default(uuid()) @db.Uuid
+  orgHandle           String                @unique
+  orgName             String
+  menus               Menu[]
+  receipts            Receipt[]
+  orders              Order[]
+  menuCategories      MenuCategory[]
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @default(now()) @updatedAt
+  MenuOption          MenuOption[]
+  OptionChoice        OptionChoice[]
+  User                User[]
+  Cafeteria_UserEmail Cafeteria_UserEmail[]
+  Parameter           Parameter?
+  DaySetting          DaySetting?
+  DateSetting         DateSetting[]
+}
+
+enum ServiceStatus {
+  AVAILABLE
+  SOLD_OUT
+  UNAVAILABLE
+}
+
+model Menu {
+  id                 String        @id @unique @default(uuid()) @db.Uuid
+  cafeteriaId        String        @db.Uuid
+  cafeteriaRelation  Cafeteria     @relation(fields: [cafeteriaId], references: [id])
+  title              String
+  contents           String[]
+  price              Int
+  serviceStatus      ServiceStatus //availableとか（販売中、売り切れ、サービスしていない）
+  backgroundImageURL String //firestoreのURL
+  categoryHandle     String
+  category           MenuCategory? @relation(fields: [categoryHandle, cafeteriaId], references: [categoryHandle, cafeteriaId])
+  options            MenuOption[]
+  availableQuantity  Int //現在販売中の数、チケットが購入されたら-1する
+  defaultQuantity    Int           @default(0) // 1日の販売数
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @default(now()) @updatedAt
+  isDaily            Boolean       @default(false)
+  Ticket             Ticket[]
+  CartTicket         CartTicket[]
+  index              Int           @default(0)
+
+  PresetMenu PresetMenu[]
+}
+
+model MenuCategory {
+  id             String    @id @unique @default(uuid()) @db.Uuid
+  categoryHandle String
+  categoryName   String
+  index          Int
+  cafeteriaId    String    @db.Uuid
+  cafeteria      Cafeteria @relation(fields: [cafeteriaId], references: [id])
+  menus          Menu[]
+
+  @@unique([categoryHandle, cafeteriaId])
+}
+
+model MenuOption {
+  id               String             @id @unique @default(uuid()) @db.Uuid
+  cafeteriaId      String             @db.Uuid
+  cafeteria        Cafeteria          @relation(fields: [cafeteriaId], references: [id])
+  menus            Menu[]
+  optionHandle     String
+  optionName       String
+  priority         Int
+  choiceList       OptionChoice[]
+  choiceNum        Int                @default(1)
+  TicketOptions    TicketOptions[]
+  CartTicketOption CartTicketOption[]
+
+  @@unique([optionHandle, cafeteriaId])
+  @@unique([cafeteriaId, optionHandle])
+}
+
+model OptionChoice {
+  id                 String             @id @unique @default(uuid()) @db.Uuid
+  cafeteriaId        String             @db.Uuid
+  cafeteria          Cafeteria          @relation(fields: [cafeteriaId], references: [id])
+  menuOptionHandle   String
+  menuOptionRelation MenuOption         @relation(fields: [cafeteriaId, menuOptionHandle], references: [cafeteriaId, optionHandle], onDelete: Cascade)
+  choiceHandle       String
+  choiceName         String
+  index              Int
+  isDefault          Boolean            @default(false)
+  priceDiff          Int
+  TicketOptions      TicketOptions[]
+  CartTicketOption   CartTicketOption[]
+
+  @@unique([choiceHandle, menuOptionHandle, cafeteriaId])
+}
+
+model PresetInfo {
+  // その日の先に決めておいたメニューの情報を持っとく大元
+  id          String       @id @unique @default(uuid()) @db.Uuid
+  year        Int
+  month       Int
+  date        Int
+  presetMenus PresetMenu[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@unique([year, month, date])
+}
+
+model PresetMenu {
+  id                 String     @id @unique @default(uuid()) @db.Uuid
+  presetInfoRelation PresetInfo @relation(fields: [presetInfoId], references: [id])
+  presetInfoId       String     @db.Uuid
+
+  menuRelation Menu   @relation(fields: [menuId], references: [id])
+  menuId       String @db.Uuid
+
+  contents  String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@unique(fields: [presetInfoId, menuId])
+}
+
+enum EmailFilterType {
+  REGEXP
+  EQUAL
+  DOMAIN
+}
+
+model Cafeteria_UserEmail {
+  id                String          @id @unique @default(uuid()) @db.Uuid
+  cafeteriaHandle   String
+  cafeteriaRelation Cafeteria       @relation(fields: [cafeteriaHandle], references: [orgHandle])
+  emailFilter       String
+  emailFilterType   EmailFilterType
+  role              Role
+}
+
+enum RefundStatus {
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  ERROR
+  EMPTY
+}
+
+model AutoRefundHistory {
+  id                 String       @id @unique @default(uuid()) @db.Uuid
+  year               Int
+  month              Int
+  day                Int
+  status             RefundStatus @default(PROCESSING)
+  message            String?
+  succeededTicketIds String[]
+  failedTicketIds    String[]
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @default(now())
+}
+
+model TaxSettings {
+  id      String   @id @unique @default(uuid()) @db.Uuid
+  startAt DateTime
+  taxRate Int
+}
+
+enum SalesExportStatus {
+  PARTIAL //月の途中までのデータがエクスポート済み・再生成が必要
+  COMPLETED //月末までの完全データがエクスポート済み
+}
+
+model SalesExportHistory {
+  id        String            @id @unique @default(uuid()) @db.Uuid
+  year      Int
+  month     Int
+  status    SalesExportStatus
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @default(now())
+
+  @@unique(fields: [year, month])
+}
+
+model Parameter {
+  id                                  String    @id @unique @default(uuid()) @db.Uuid
+  cafeteriaHandle                     String    @unique
+  cafeteriaRelation                   Cafeteria @relation(fields: [cafeteriaHandle], references: [orgHandle], onDelete: Cascade)
+  cafeteriaOpenAtHour                 Int
+  cafeteriaOpenAtMinute               Int
+  cafeteriaCloseAtHour                Int
+  cafeteriaCloseAtMinute              Int
+  ticketBuyableStartAtHour            Int
+  ticketBuyableStartAtMinute          Int
+  ticketBuyableEndAtHour              Int
+  ticketBuyableEndAtMinute            Int
+  timezoneHourTimeDelta               Int
+  timezoneMinuteTimeDelta             Int
+  timeToDeleteCartTicketMilliseconds  Int
+  timeToTimeoutAtPurchaseMilliseconds Int
+  orderDurationMilliseconds           Int
+}
+
+model DaySetting {
+  id                String    @id @unique @default(uuid()) @db.Uuid
+  cafeteriaHandle   String    @unique
+  cafeteriaRelation Cafeteria @relation(fields: [cafeteriaHandle], references: [orgHandle], onDelete: Cascade)
+  sun               Boolean
+  mon               Boolean
+  tue               Boolean
+  wed               Boolean
+  thu               Boolean
+  fri               Boolean
+  sat               Boolean
+}
+
+model DateSetting {
+  id                String    @id @unique @default(uuid()) @db.Uuid
+  cafeteriaHandle   String
+  cafeteriaRelation Cafeteria @relation(fields: [cafeteriaHandle], references: [orgHandle])
+  year              Int
+  month             Int
+  date              Int
+  isOpen            Boolean
+
+  @@unique([year, month, date, cafeteriaHandle])
+}

@@ -1,0 +1,115 @@
+.inputField {
+  --input-field-border-width: 2px;
+  border: var(--color-brown) var(--input-field-border-width) solid;
+  font-size: inherit;
+  height: 1.6em;
+  padding: 0 5px;
+  border-radius: 5px;
+  width: 100%;
+
+  &:focus {
+    border: var(--color-primary) var(--input-field-border-width) solid;
+  }
+}
+
+.radioButton {
+  font-size: 20px;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+
+  input {
+    display: none;
+  }
+
+  .radioButtonDisplay {
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: var(--color-brown);
+    border-radius: 10000px;
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      background-color: white;
+      width: calc(100% - 6px);
+      height: calc(100% - 6px);
+      border-radius: 10000px;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      background-color: var(--color-brown);
+      border-radius: 10000px;
+      transition: width 0.1s ease, height 0.1s ease;
+    }
+  }
+
+  input:checked + .radioButtonDisplay:after {
+    width: calc(100% - 11px);
+    height: calc(100% - 11px);
+  }
+}
+
+.checkBox {
+  font-size: 20px;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+
+  input {
+    display: none;
+  }
+
+  .checkBoxDisplay {
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: var(--color-brown);
+    border-radius: 0.2em;
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      background-color: white;
+      width: calc(100% - 6px);
+      height: calc(100% - 6px);
+      border-radius: 0.1em;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      background-color: var(--color-brown);
+      border-radius: 10000px;
+      transition: width 0.1s ease, height 0.1s ease;
+    }
+  }
+
+  input:checked + .checkBoxDisplay:after {
+    width: 10px;
+    height: 10px;
+  }
+}

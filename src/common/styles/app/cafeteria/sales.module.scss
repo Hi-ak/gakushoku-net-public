@@ -1,0 +1,22 @@
+.sales {
+  position: absolute;
+  width: 100dvw;
+  height: 100dvh;
+  .title {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 30px;
+    font-weight: 600;
+    color: #53432b;
+  }
+  .downloader {
+    position: relative;
+    width: 100dvw;
+    min-height: 50dvh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0 40px;
+    padding: 200px;
+  }
+}

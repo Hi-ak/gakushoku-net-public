@@ -1,0 +1,169 @@
+.optionCardContainer {
+  position: relative;
+  color: black;
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  border: black 3px solid;
+  // box-shadow: 2px 2px 5px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 450px !important;
+
+  input[type="text"],
+  input[type="number"] {
+    border-color: black;
+    display: inline;
+  }
+
+  .name {
+    font-size: 28px;
+  }
+
+  .choicesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .choice.head {
+        font-size: 12px;
+      }
+
+      .choice {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+
+        .radioButton {
+          flex-shrink: 0;
+          width: 60px;
+          display: inline-flex;
+          flex-direction: row;
+          justify-content: center;
+        }
+
+        .choiceHandle {
+          width: 180px;
+        }
+
+        .price {
+          input {
+            width: 70px;
+            margin-right: 5px;
+          }
+        }
+
+        .icon {
+          border: 2px var(--icon-color) solid;
+          color: var(--icon-color);
+          height: 28px;
+          width: 28px;
+          border-radius: 5px;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .icon.delete {
+          --icon-color: red;
+        }
+
+        .icon.add.disabled {
+          --icon-color: var(--color-secondary);
+        }
+
+        .icon.add {
+          --icon-color: var(--color-green);
+        }
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 20px;
+
+    .button {
+      padding: 3px 20px;
+      border-radius: 10px;
+      border: var(--button-border-color) 2px solid;
+      cursor: pointer;
+      user-select: none;
+      color: white;
+
+      &.delete {
+        background-color: var(--color-button-red);
+      }
+
+      &.cancel {
+        display: none;
+        background-color: var(--color-secondary);
+      }
+
+      &.save {
+        display: none;
+        background-color: var(--color-sub-primary);
+      }
+
+      &.changed {
+        display: block;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .optionCardContainer {
+    width: 100% !important;
+    overflow-x: auto;
+
+    .choicesContainer {
+      width: 390px;
+    }
+  }
+}
+
+.addOptionCardContainer {
+  background-color: var(--color-sub-primary-light);
+  border-color: var(--color-sub-primary);
+  color: var(--color-sub-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 24px;
+
+  .icon {
+    width: 150px;
+    height: 150px;
+    font-size: 100px;
+    background-color: var(--color-sub-primary-light);
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: var(--color-sub-primary);
+      color: var(--color-sub-primary-light);
+    }
+  }
+}
+
+.alert {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px 60px;
+  border-radius: 20px;
+}

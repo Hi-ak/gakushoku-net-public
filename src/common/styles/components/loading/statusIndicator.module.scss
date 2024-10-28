@@ -1,0 +1,25 @@
+.indicator {
+  width: 350px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0 10px;
+  .message {
+    font-size: 25px;
+    font-weight: 600;
+  }
+}
+
+.ok {
+  color: rgb(31, 105, 31);
+}
+
+.loading {
+  color: var(--color-primary);
+}
+
+.error {
+  color: var(--color-button-red);
+}

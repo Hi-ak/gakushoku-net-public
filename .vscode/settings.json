@@ -1,0 +1,14 @@
+{
+  "prettier.printWidth": 80,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.tabWidth": 2,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.implicitProjectConfig.strictNullChecks": false
+}

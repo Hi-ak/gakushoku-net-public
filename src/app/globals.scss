@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --header-height: 60px;
+  --color-primary: #eb7f00;
+  --color-menu-background: #fff6eb;
+  --color-menu-background-stronger: #ffefdc;
+  --color-sub-primary: #4461c8;
+  --color-sub-primary-light: #d7e0ff;
+  --color-secondary: #999999;
+  --color-green: #4fcb4c;
+  --color-button-red: #c84444;
+  --color-button-yellow: #fbff31;
+  --color-brown: #53432b;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --modal-shadow-color: rgba(0, 0, 0, 0.6);
+  --button-border-color: #e0e0e0;
+  --menu-text-color: var(--color-brown);
+  --drawer-width: 100vw;
+  --drawer-min-width: 200px;
+  --drawer-max-width: 350px;
+  --drawer-transition: ease-in-out 0.3s;
+  --modal-transition: ease-in-out 0.3s;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 1.875rem; /* 30px */
+  line-height: 2.25rem; /* 36px */
+}
+
+h2 {
+  font-size: 1.5rem; /* 24px */
+  line-height: 2rem; /* 32px */
+}
+
+h3 {
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.75rem; /* 28px */
+}
+
+h4 {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
+}
+
+a {
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+label {
+  cursor: pointer;
+  user-select: none;
+}
+
+a:hover {
+  color: var(--color-sub-primary);
+}
+
+p {
+  margin-block: 1em;
+}
+
+hr {
+  height: 1px;
+  background-color: black;
+  width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.no-select {
+  user-select: none;
+}

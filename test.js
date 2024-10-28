@@ -1,0 +1,1 @@
+const re = "^[0-9]{6}[a-z]{3}@kaiseigakuen\\.jp$"

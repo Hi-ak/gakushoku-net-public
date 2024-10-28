@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - /var/log/app_log:/var/log
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-northeast-1
+        awslogs-group: "/docker-logs"
+        awslogs-create-group: "true"
+  nginx_service:
+    build:
+      context: .
+      dockerfile: ./Docker/Dockerfile2
+    ports:
+      - 80:80
+    volumes:
+      - /var/log/nginx:/var/log/nginx
+    depends_on:
+      - app
+
+networks:
+  default:

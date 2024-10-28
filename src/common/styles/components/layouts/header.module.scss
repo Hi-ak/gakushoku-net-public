@@ -1,0 +1,114 @@
+.headerContainer {
+  height: var(--header-height);
+
+  .header {
+    height: var(--header-height);
+    background-color: var(--color-primary);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    left: 0;
+    right: 0;
+    top: 0;
+    position: absolute;
+    z-index: 1000;
+    color: white;
+
+    .title {
+      font-size: 2rem;
+
+      a {
+        font-weight: normal;
+        color: white;
+        text-decoration: none;
+      }
+    }
+
+    .menu {
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+}
+
+.drawer {
+  --drawer-background-color: var(--color-menu-background);
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  right: 0;
+  width: var(--drawer-width);
+  background-color: var(--drawer-background-color);
+  min-width: var(--drawer-min-width);
+  max-width: var(--drawer-max-width);
+  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
+  z-index: 900;
+  translate: calc(100% + 10px);
+  transition: translate var(--drawer-transition);
+  padding: 50px 0;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+
+  a {
+    color: var(--color-brown);
+    text-decoration: none;
+    font-weight: normal;
+  }
+
+  .drawerContents {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+    gap: 20px;
+    padding: 20px 0;
+
+    a {
+      --content-transition: ease 0.1s;
+      display: block;
+      width: 100%;
+      padding: 0 30px;
+      background-color: var(--drawer-background-color);
+      transition: background-color var(--content-transition);
+
+      .content {
+        transition: color var(--content-transition),
+          background-color var(--content-transition);
+        background-color: var(--color-menu-background);
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        width: 100%;
+        border-radius: 15px;
+        background-color: white;
+        padding: 0 20px;
+      }
+
+      .content:hover {
+        color: var(--color-primary);
+        background-color: #ffdfb7;
+      }
+    }
+
+    a.current {
+      background-color: #ffdfb7;
+
+      .content {
+        color: var(--color-primary);
+        background-color: #ffdfb7;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .drawer {
+    max-width: unset;
+  }
+}

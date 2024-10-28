@@ -1,0 +1,352 @@
+.cardContainer {
+  --border-color: #c6a87b;
+  --receipt-background-color: #dfcaa8;
+  --background-color: #ffe6c5;
+  --button-color: var(--color-green);
+  --button-color-selected: var(--color-button-red);
+  --button-color-unselected: var(--color-green);
+
+  border: 3px solid var(--border-color);
+  border-radius: 30px;
+  min-height: 160px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+  min-width: 400px;
+
+  &__ticket {
+    border: none;
+    border-radius: 0px;
+    .titleAndPrice {
+      margin-right: 4px;
+    }
+
+    .buttonContainer {
+      margin-right: 4px;
+    }
+  }
+
+  .ticketBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .soldOutScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    background-color: rgba(223, 223, 223, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h3 {
+      color: #dd0000;
+      text-align: center;
+      font-size: 27px;
+    }
+  }
+
+  .titleAndPrice {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      font-size: 28px;
+    }
+
+    .price {
+      font-size: 26px;
+    }
+  }
+
+  .contents {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .buttonContainer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 16px;
+    bottom: 16px;
+    width: 92px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid var(--button-border-color);
+    background-color: var(--button-color);
+    cursor: pointer;
+    user-select: none;
+
+    //cardToggleButtonの選択された時
+    &__selected {
+      background-color: var(--button-color-selected);
+    }
+
+    &__unselected {
+      background-color: var(--button-color-unselected);
+    }
+
+    .text {
+      font-size: 22px;
+      width: 100%;
+      height: 100%;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__disabled {
+      background-color: rgb(128, 128, 128);
+      .text {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .modalCardContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px;
+
+    .contentsContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-radius: 15px;
+      background-color: var(--color-menu-background);
+      border: 2px solid var(--border-color);
+
+      .contents {
+        padding-left: 15px;
+      }
+    }
+
+    .options {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .option {
+        display: flex;
+        flex-direction: row;
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        min-height: 60px;
+        background-color: white;
+
+        .choiceContainer {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          flex: 1;
+          cursor: pointer;
+          user-select: none;
+
+          .choice {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 10px;
+
+            input {
+              display: none;
+            }
+          }
+        }
+
+        .choiceContainer:has(input:checked) {
+          background-color: var(--color-button-yellow);
+        }
+
+        .choiceContainer:nth-child(1) {
+          border-radius: 8px 0 0 8px;
+        }
+
+        .choiceContainer:nth-last-child(1) {
+          border-radius: 0 8px 8px 0;
+        }
+
+        .part {
+          width: 1px;
+          background-color: var(--border-color);
+        }
+      }
+    }
+
+    .price {
+      position: relative;
+      padding: 5px;
+      background-color: var(--color-menu-background);
+    }
+
+    .price::after {
+      content: "";
+      position: absolute;
+      bottom: 4px;
+      left: 3px;
+      right: 3px;
+      height: 2px;
+      background-color: var(--border-color);
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .modalCardContainer {
+      min-width: unset;
+      width: calc(100vw - 40px);
+    }
+  }
+
+  .bottomContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: absolute;
+    width: 80%;
+    bottom: 0;
+    translate: 0 50%;
+    height: 48px;
+
+    .amountContainer {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      background-color: white;
+      border: 2px solid var(--border-color);
+      justify-content: space-around;
+      border-radius: 10px;
+      width: 7.5rem;
+
+      .svg {
+        cursor: pointer;
+        user-select: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+          width: 40px;
+          scale: 2.5 1.5;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  .price {
+    font-size: 26px;
+  }
+
+  .buttonContainer.modalButton {
+    position: static;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-sub-primary);
+
+    .text {
+      width: auto;
+      height: auto;
+    }
+  }
+}
+
+.cardContainer.receiptCardContainer {
+  min-height: 0px;
+  padding: 0px;
+  gap: 0px;
+  overflow: hidden;
+  border-radius: 15px;
+
+  .titleAndPrice {
+    background-color: var(--receipt-background-color);
+    height: 40px;
+    padding: 0 15px;
+
+    h2 {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+  }
+
+  .titleAndPriceSmall {
+    display: none;
+  }
+
+  .contents {
+    padding-top: 14px;
+    padding-bottom: 28px;
+  }
+}
+
+.addCardContainer {
+  background-color: var(--color-sub-primary-light);
+  border-color: var(--color-sub-primary);
+  color: var(--color-sub-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  .icon {
+    width: 100px;
+    height: 100px;
+    font-size: calc(100px / 1.5);
+    background-color: var(--color-sub-primary-light);
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: var(--color-sub-primary);
+      color: var(--color-sub-primary-light);
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .cardContainer {
+    min-width: unset;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .cardContainer.receiptCardContainer {
+    .titleAndPrice {
+      display: none;
+    }
+
+    .titleAndPriceSmall {
+      display: flex;
+
+      h2 {
+        font-size: 16px;
+      }
+    }
+  }
+}

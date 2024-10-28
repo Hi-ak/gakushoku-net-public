@@ -1,0 +1,92 @@
+.shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: var(--modal-shadow-color);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--modal-transition);
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.shadow.alertShadow {
+  z-index: 1250;
+}
+
+.shadow.noShadowClose {
+  cursor: default;
+}
+
+.modal {
+  position: fixed;
+  bottom: 0;
+  transition: bottom var(--modal-transition), translate var(--modal-transition);
+  padding: 0 25px;
+  z-index: 1200;
+  left: 50vw;
+  translate: -50% 100%;
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+
+  > * {
+    pointer-events: all;
+  }
+}
+
+.modal.small {
+  width: 450px;
+}
+
+.alert {
+  position: fixed;
+  left: 50vw;
+  top: 0;
+  translate: -50% -100%;
+  transition: top var(--modal-transition), translate var(--modal-transition);
+  padding: 25px;
+  z-index: 1300;
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+
+  > * {
+    pointer-events: all;
+  }
+}
+
+.alert.small {
+  width: 450px;
+}
+
+@media screen and (max-width: 450px) {
+  .modal.small,
+  .alert.small {
+    width: 100vw;
+  }
+}
+
+.shadow.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal.active {
+  bottom: 50%;
+  translate: -50% 50%;
+}
+
+.alert.active {
+  top: 40px;
+  translate: -50% 0;
+}

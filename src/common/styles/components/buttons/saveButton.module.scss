@@ -1,0 +1,20 @@
+.button {
+  width: 300px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+  padding: 10px;
+  border: 3px solid #aaa;
+  border-radius: 30px;
+
+  font-size: 25px;
+  font-weight: 500;
+  color: #fff6eb;
+  vertical-align: baseline;
+
+  background-color: #4461c8;
+}

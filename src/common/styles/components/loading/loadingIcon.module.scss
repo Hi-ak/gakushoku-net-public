@@ -1,0 +1,31 @@
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5em;
+  height: 1.5em;
+
+  .loading {
+    object-fit: contain;
+    width: 1.3em;
+    aspect-ratio: 1/1;
+    border-color: rgba($color: white, $alpha: 0.4);
+    border-style: solid;
+    border-top-color: white;
+    border-width: 0.15em;
+    border-radius: 50%;
+    animation: 1s infinite spin;
+    animation-timing-function: linear;
+  }
+
+  &.brown > .loading {
+    border-color: rgba($color: var(--color-brown), $alpha: 0.4);
+    border-top-color: white;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

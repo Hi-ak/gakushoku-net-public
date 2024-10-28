@@ -1,0 +1,34 @@
+name: Deploy main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Get Version From Package JSON
+        id: new-version
+        run: |
+          echo version=$(cat package.json | grep version | head -1 | grep -Po '\d+\.\d+\.\d+(\.\d+)?') >> $GITHUB_OUTPUT
+
+      - name: Show New Version
+        run: echo "version=${{ steps.new-version.outputs.version}}"
+
+      - name: Generate deployment package
+        run: ./make-deploy.sh ${{ steps.new-version.outputs.version}}
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_IAM_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_IAM_SECRET_KEY }}
+          application_name: GAKUSHOKU-NET-PROD
+          environment_name: GAKUSHOKU-NET-PROD
+          version_label: ${{ steps.new-version.outputs.version}}
+          region: ap-northeast-1
+          deployment_package: deploy${{ steps.new-version.outputs.version}}.zip
